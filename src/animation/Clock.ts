@@ -1,3 +1,5 @@
+import { initCanvas } from "../utils";
+
 const digit = [
   [
     [0, 0, 1, 1, 1, 0, 0],
@@ -147,7 +149,7 @@ const balls: any[] = [];
 
 let ctx: CanvasRenderingContext2D;
 const animateCache = {
-  animateId: 0
+  animateId: 0,
 };
 
 const colors = [
@@ -164,34 +166,30 @@ const colors = [
 ];
 
 export default function CountDown() {
-  const canvas: HTMLCanvasElement = document.getElementById(
-    "Canvas"
-  ) as HTMLCanvasElement;
-  canvas.width;
-  ctx = canvas.getContext(
-    "2d"
-  ) as CanvasRenderingContext2D;
+  const { canvas } = initCanvas();
 
-  CANVES_WIDTH = document.body.clientWidth - 260 - 48;
-  CANVES_HEIGHT = document.body.clientHeight - 48;
+  CANVES_WIDTH = canvas.width;
+  CANVES_HEIGHT = canvas.height;
+
+  ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 
   MARGIN_LEFT = Math.round(CANVES_WIDTH / 10);
   MARGIN_TOP = Math.round(CANVES_HEIGHT / 5);
-  RADIUS = Math.round(CANVES_WIDTH * 4 / 5 / 108) - 1;
-
-  canvas.width = CANVES_WIDTH;
-  canvas.height = CANVES_HEIGHT;
+  RADIUS = Math.round((CANVES_WIDTH * 4) / 5 / 108) - 1;
 
   currentShowTimeSeconds = getCurrentTimeSeconds();
 
   animate();
 
-  return { animateCache };
+  return animateCache;
 }
 
 function getCurrentTimeSeconds() {
   const currentTime = new Date();
-  const ret = currentTime.getHours() * 3600 + currentTime.getMinutes() * 60 + currentTime.getSeconds();
+  const ret =
+    currentTime.getHours() * 3600 +
+    currentTime.getMinutes() * 60 +
+    currentTime.getSeconds();
   return ret;
   // 倒计时
   // let ret = endTime.getTime() - currentTime.getTime();
@@ -214,25 +212,33 @@ function update(ctx: CanvasRenderingContext2D) {
   const currSeconds: number = currentShowTimeSeconds % 60;
 
   if (nextSeconds !== currSeconds) {
-    if ((currHours / 10 | 0) !== (nextHours / 10 | 0)) {
-      addBalls(MARGIN_LEFT + 0, MARGIN_TOP, currHours / 10 | 0);
+    if (((currHours / 10) | 0) !== ((nextHours / 10) | 0)) {
+      addBalls(MARGIN_LEFT + 0, MARGIN_TOP, (currHours / 10) | 0);
     }
     if ((currHours % 10 | 0) !== (nextHours % 10 | 0)) {
       addBalls(MARGIN_LEFT + 15 * (RADIUS + 1), MARGIN_TOP, currHours % 10 | 0);
     }
 
-    if ((currMinutes / 10 | 0) !== (nextMinutes / 10 | 0)) {
-      addBalls(MARGIN_LEFT + 39, MARGIN_TOP, currMinutes / 10 | 0);
+    if (((currMinutes / 10) | 0) !== ((nextMinutes / 10) | 0)) {
+      addBalls(MARGIN_LEFT + 39, MARGIN_TOP, (currMinutes / 10) | 0);
     }
     if ((currMinutes % 10 | 0) !== (nextMinutes % 10 | 0)) {
-      addBalls(MARGIN_LEFT + 54 * (RADIUS + 1), MARGIN_TOP, currMinutes % 10 | 0);
+      addBalls(
+        MARGIN_LEFT + 54 * (RADIUS + 1),
+        MARGIN_TOP,
+        currMinutes % 10 | 0
+      );
     }
 
-    if ((currSeconds / 10 | 0) !== (nextSeconds / 10 | 0)) {
-      addBalls(MARGIN_LEFT + 78, MARGIN_TOP, currSeconds / 10 | 0);
+    if (((currSeconds / 10) | 0) !== ((nextSeconds / 10) | 0)) {
+      addBalls(MARGIN_LEFT + 78, MARGIN_TOP, (currSeconds / 10) | 0);
     }
     if ((currSeconds % 10 | 0) !== (nextSeconds % 10 | 0)) {
-      addBalls(MARGIN_LEFT + 93 * (RADIUS + 1), MARGIN_TOP, currSeconds % 10 | 0);
+      addBalls(
+        MARGIN_LEFT + 93 * (RADIUS + 1),
+        MARGIN_TOP,
+        currSeconds % 10 | 0
+      );
     }
 
     currentShowTimeSeconds = nextShowTimeSeconds;
@@ -252,7 +258,7 @@ function addBalls(x: number, y: number, num: number) {
           vx: Math.pow(-1, Math.ceil(Math.random() * 1000)) * 4,
           vy: -5,
           colors: colors[Math.floor(Math.random() * colors.length)],
-        }
+        };
 
         balls.push(aBall);
       }

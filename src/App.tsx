@@ -1,16 +1,21 @@
 import { useEffect, useState } from 'react'
 import Clock from './animation/Clock';
+import SelectSort from './animation/SelectSort';
 
 const animationMap: { [animation: string]: Function } = {
-  Clock
+  Clock,
+  SelectSort,
 }
 
 function App() {
   const [animation, setAnimation] = useState('Clock');
 
   useEffect(() => {
-    const { animateId } = animationMap[animation]();
-    return cancelAnimationFrame(animateId);
+    const animateCache = animationMap[animation]();
+
+    return () => {
+      cancelAnimationFrame(animateCache.animateId);
+    };
   }, [animation]);
 
   return (
@@ -19,6 +24,7 @@ function App() {
         <h2 className="Aside--title">Visible Algorithm</h2>
         <div className="Aside--content">
           <button className="Aside--button" onClick={() => setAnimation('Clock')}>⏰ Clock</button>
+          <button className="Aside--button" onClick={() => setAnimation('SelectSort')}>⬆️ SelectSort</button>
         </div>
       </div>
 
