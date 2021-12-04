@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react'
-import Clock from './animation/Clock';
-import SelectSort from './animation/SelectSort';
+import { useEffect, useState } from "react";
+import Clock from "./animation/Clock";
+import SelectSort from "./animation/SelectSort";
 
 const animationMap: { [animation: string]: Function } = {
   Clock,
   SelectSort,
-}
+};
 
 function App() {
-  const [animation, setAnimation] = useState('Clock');
+  const [animation, setAnimation] = useState("Clock");
 
   useEffect(() => {
     const animateCache = animationMap[animation]();
@@ -23,8 +23,18 @@ function App() {
       <div className="Aside">
         <h2 className="Aside--title">Visible Algorithm</h2>
         <div className="Aside--content">
-          <button className="Aside--button" onClick={() => setAnimation('Clock')}>⏰ Clock</button>
-          <button className="Aside--button" onClick={() => setAnimation('SelectSort')}>⬆️ SelectSort</button>
+          <button
+            className="Aside--button"
+            onClick={() => setAnimation("Clock")}
+          >
+            ⏰ Clock
+          </button>
+          <button
+            className="Aside--button"
+            onClick={() => setAnimation("SelectSort")}
+          >
+            ⬆️ SelectSort
+          </button>
         </div>
       </div>
 
@@ -34,7 +44,7 @@ function App() {
         </canvas>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
